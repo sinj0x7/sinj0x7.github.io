@@ -5,199 +5,298 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sinj0x7</title>
 <meta name="description" content="sinj0x7 — tools, shown as themselves.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Fraunces:ital,opsz,wght@1,9..144,500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: #0c0b0a; }
   body {
-    background: #121212;
-    color: #d8d4cc;
-    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #2a2218 0%, transparent 55%),
+      radial-gradient(900px 500px at 110% 8%, #1a1e2a 0%, transparent 50%),
+      #0c0b0a;
+    color: #ddd6cc;
+    font: 16px/1.65 "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 600;
   }
-  a { color: #f2f2f2; }
-  header, .block { max-width: 920px; margin: 0 auto; padding: 0 20px; }
-  header { padding-top: 48px; padding-bottom: 56px; }
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 80;
+    opacity: 0.11;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.55'/></svg>");
+  }
+  a { color: #f6f1e8; }
+  header, .block, footer { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 56px; padding-bottom: 72px; }
   h1 {
-    font-size: 32px;
-    font-weight: 650;
-    letter-spacing: -0.04em;
-    color: #f2f2f2;
+    font-size: clamp(56px, 12vw, 108px);
+    font-weight: 800;
+    letter-spacing: -0.07em;
+    line-height: 0.86;
+    color: #f6f1e8;
   }
-  .by { color: #8c877c; font-size: 14px; margin-top: 4px; }
-  .by a { color: #f2f2f2; }
-  .lede { margin-top: 22px; max-width: 640px; }
-  .block { padding-bottom: 72px; }
+  .by { color: #8f877c; font-size: 14px; margin-top: 14px; }
+  .by a {
+    color: #f6f1e8;
+    text-decoration: none;
+    border-bottom: 1px solid #5a5348;
+  }
+  .by a:hover { border-color: #f6f1e8; }
+  .lede {
+    margin-top: 28px;
+    max-width: 18em;
+    font-family: Fraunces, Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.3;
+    color: #f0e6d6;
+  }
+  .block {
+    position: relative;
+    padding: 28px 24px 80px;
+  }
+  .block::before {
+    content: "";
+    position: absolute;
+    left: 8%;
+    top: 10%;
+    width: min(520px, 70%);
+    height: 280px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(90px);
+    opacity: 0.22;
+  }
+  .s-key::before { background: #6a655c; }
+  .s-curve::before { background: #f5a044; opacity: 0.28; }
+  .s-lasers::before { background: #ff3a3a; opacity: 0.22; }
+  .s-music::before { background: #3dcea0; opacity: 0.2; }
+  .s-ani::before { background: #6b8cff; opacity: 0.2; }
+  .s-notes::before { background: #e0b45c; opacity: 0.2; }
+  .s-c::before { background: #9aa0a8; opacity: 0.14; }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
   .who {
-    font-size: 13px;
-    color: #8c877c;
-    letter-spacing: 0.08em;
+    font-size: 12px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    margin-bottom: 8px;
+    font-weight: 800;
   }
+  .s-key .who { color: #cfc8bc; }
+  .s-curve .who { color: #f5a044; }
+  .s-lasers .who { color: #ff6b6b; }
+  .s-music .who { color: #5ee0a8; }
+  .s-ani .who { color: #8aa4ff; }
+  .s-notes .who { color: #e8c97a; }
+  .s-c .who { color: #b8b3a8; }
   h2 {
-    font-size: 26px;
-    font-weight: 650;
-    letter-spacing: -0.04em;
-    color: #f2f2f2;
-    margin-bottom: 8px;
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    color: #f6f1e8;
+    margin-bottom: 12px;
   }
-  .block > p { max-width: 640px; margin-bottom: 16px; }
-  .links { font-size: 14px; margin-top: 14px; }
-  .links a { margin-right: 14px; }
+  .block > p { max-width: 38em; margin-bottom: 22px; color: #c9c0b4; }
+  .links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; font-size: 13px; font-weight: 800; }
+  .links a {
+    display: inline-block;
+    padding: 7px 13px;
+    border: 1px solid #f6f1e8;
+    color: #f6f1e8;
+    text-decoration: none;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+  }
+  .links a:hover { background: #f6f1e8; color: #0c0b0a; }
 
   /* Keycam */
   .stage {
-    background: #101010;
-    border: 1px solid #2a2a2a;
-    border-radius: 12px;
-    padding: 18px 16px 16px;
+    background: #141311;
+    border: 1px solid #2e2b26;
+    border-radius: 16px;
+    padding: 22px 18px 18px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
   }
   .readout {
-    min-height: 64px;
+    min-height: 72px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
   .readout b {
-    font-size: 36px;
-    font-weight: 650;
-    letter-spacing: -0.04em;
-    color: #f4f4f4;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: #f6f1e8;
     line-height: 1;
   }
-  .readout span { color: #6e6e6e; font-size: 13px; margin-top: 8px; }
+  .readout span { color: #8f877c; font-size: 13px; margin-top: 8px; }
   .kboard { display: flex; flex-direction: column; gap: 6px; }
   .krow { display: flex; gap: 6px; }
   .key {
     flex: 1;
-    height: 42px;
-    background: #2c2c2c;
-    color: #d8d8d8;
+    height: 44px;
+    background: linear-gradient(#3a3936, #262523);
+    color: #e8e2d8;
     border: 0;
-    border-radius: 5px;
-    font: 600 11px/1 "Segoe UI", system-ui, sans-serif;
+    border-bottom: 3px solid #161513;
+    border-radius: 7px;
+    font: 800 11px/1 "Bricolage Grotesque", system-ui, sans-serif;
     cursor: pointer;
     user-select: none;
+    transition: background .08s, color .08s, transform .08s;
   }
   .key.u15 { flex: 1.5; } .key.u175 { flex: 1.75; } .key.u2 { flex: 2; }
   .key.u225 { flex: 2.25; } .key.u275 { flex: 2.75; } .key.u125 { flex: 1.25; }
   .key.u625 { flex: 6.25; }
-  .key.lit { background: #f4f4f4; color: #141414; }
+  .key.lit {
+    background: #f6f1e8;
+    color: #141311;
+    border-bottom-color: #c4b9a8;
+    transform: translateY(1px);
+  }
 
-  /* CurveLoupe */
   canvas.curve {
     display: block;
     width: 100%;
-    height: 280px;
-    background: #101010;
+    height: 300px;
+    background: #141311;
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px #2e2b26, 0 24px 60px rgba(245,160,68,.08);
     cursor: grab;
     touch-action: none;
   }
   canvas.curve.grabbing { cursor: grabbing; }
-  .hint { color: #6e6e6e; font-size: 13px; margin-top: 8px; }
+  .hint { color: #8f877c; font-size: 13px; margin-top: 10px; }
 
-  /* laser-eyes */
   canvas.eyes {
     display: block;
     width: 100%;
-    height: 240px;
-    background: #0c0c0c;
+    height: 260px;
+    background: #100c0c;
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px #3a2222, 0 24px 60px rgba(255,58,58,.12);
     touch-action: none;
   }
 
-  /* damusic */
   .eq {
     display: flex;
     align-items: flex-end;
-    gap: 5px;
-    height: 140px;
-    padding: 12px 4px 0;
+    gap: 6px;
+    height: 168px;
+    padding: 16px 8px 0;
+    background: #141311;
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px #2e2b26;
   }
   .eq i {
     flex: 1;
     display: block;
     align-self: flex-end;
-    background: #f2f2f2;
+    background: linear-gradient(#d8fff0, #3dcea0);
     height: 40%;
     min-height: 8px;
-    border-radius: 1px 1px 0 0;
+    border-radius: 3px 3px 0 0;
   }
 
-  /* Animio */
   .ani {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 18px;
+    gap: 14px;
+  }
+  .ani > div {
+    background: #141311;
+    border-radius: 16px;
+    padding: 16px 16px 8px;
+    box-shadow: 0 0 0 1px #2e2b26;
   }
   .ani h3 {
     font-size: 12px;
-    font-weight: 600;
-    color: #8c877c;
-    margin-bottom: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8aa4ff;
+    margin-bottom: 6px;
   }
   .ani ol { list-style: none; }
   .ani li {
-    padding: 10px 0;
-    border-top: 1px solid #2a2a2a;
+    padding: 12px 0;
+    border-top: 1px solid #2e2b26;
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    font-size: 14px;
+    font-size: 15px;
   }
-  .ani b { font-weight: 600; color: #f2f2f2; }
-  .ani em { font-style: normal; color: #8c877c; font-size: 12px; }
+  .ani b { font-weight: 800; color: #f6f1e8; }
+  .ani em { font-style: normal; color: #8f877c; font-size: 12px; }
 
-  /* moodboard */
   .board {
     position: relative;
-    height: 280px;
+    height: 300px;
+    border-radius: 16px;
+    overflow: hidden;
     background:
-      linear-gradient(#1c1c1c 1px, transparent 1px) 0 0 / 24px 24px,
-      linear-gradient(90deg, #1c1c1c 1px, transparent 1px) 0 0 / 24px 24px,
-      #161616;
+      linear-gradient(#2a261c 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(90deg, #2a261c 1px, transparent 1px) 0 0 / 28px 28px,
+      #1a1814;
+    box-shadow: 0 0 0 1px #3a3428;
   }
   .note {
     position: absolute;
-    width: 180px;
-    min-height: 110px;
-    padding: 12px 14px;
-    background: #ece8dc;
-    color: #1a1a1a;
-    font: 15px/1.4 Georgia, "Times New Roman", serif;
+    width: 190px;
+    min-height: 118px;
+    padding: 14px 16px;
+    background: #f3ead4;
+    color: #1a1612;
+    font: italic 500 16px/1.4 Fraunces, Georgia, serif;
     cursor: grab;
     user-select: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,.45);
+    box-shadow: 0 14px 32px rgba(0,0,0,.4);
+    rotate: -3deg;
   }
-  .note:nth-child(2) { background: #dfe6f0; }
-  .note:nth-child(3) { background: #ecd9d4; }
-  .note.grabbing { cursor: grabbing; z-index: 2; }
+  .note:nth-child(2) { background: #d7e4f5; rotate: 4deg; }
+  .note:nth-child(3) { background: #f3d5ce; rotate: -1deg; }
+  .note.grabbing { cursor: grabbing; z-index: 2; rotate: 0deg; }
 
-  /* 1337 */
   pre {
-    font: 13px/1.7 ui-monospace, Consolas, monospace;
-    background: #0c0c0c;
-    color: #c8c2b6;
-    padding: 18px 20px;
+    font: 13px/1.75 ui-monospace, Consolas, monospace;
+    background: #10100f;
+    color: #d8d0c4;
+    padding: 22px 24px;
     overflow-x: auto;
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px #2e2b26;
   }
-  pre .kw { color: #f2f2f2; }
-  pre .fn { color: #e8e8e8; }
-  pre .cm { color: #6e6e6e; }
+  pre .kw { color: #f6f1e8; font-weight: 700; }
+  pre .fn { color: #f5a044; }
+  pre .cm { color: #7a7368; }
 
   footer {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 8px 20px 64px;
-    color: #8c877c;
+    padding: 8px 24px 72px;
+    color: #8f877c;
     font-size: 13px;
   }
-  footer a { color: #8c877c; }
-  footer a:hover { color: #f2f2f2; }
+  footer a { color: #8f877c; text-decoration: none; }
+  footer a:hover { color: #f6f1e8; }
 
   @media (max-width: 720px) {
-    .key { height: 30px; font-size: 9px; }
+    .key { height: 30px; font-size: 9px; border-bottom-width: 2px; }
     .readout b { font-size: 28px; }
-    .ani { grid-template-columns: 1fr; gap: 8px; }
+    .ani { grid-template-columns: 1fr; }
+    .top { flex-wrap: wrap; }
     .note { width: 150px; }
     .note:nth-child(1) { left: 12px !important; top: 24px !important; }
     .note:nth-child(2) { left: 48px !important; top: 92px !important; }
@@ -206,6 +305,7 @@
 </style>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 <header>
   <h1>sinj0x7</h1>
   <div class="by">
@@ -219,8 +319,14 @@
   </p>
 </header>
 
-<section class="block">
-  <p class="who">overlay</p>
+<section class="block s-key">
+  <div class="top">
+    <p class="who">overlay</p>
+    <p class="links">
+      <a href="https://sinj0x7.github.io/keycam">site</a>
+      <a href="https://github.com/sinj0x7/keycam">repo</a>
+    </p>
+  </div>
   <h2>Keycam</h2>
   <p>
     Keyboard overlay for streams. Drop it on the game, lock it, keys light
@@ -233,14 +339,16 @@
     </div>
     <div class="kboard" id="kboard"></div>
   </div>
-  <p class="links">
-    <a href="https://sinj0x7.github.io/keycam">site</a>
-    <a href="https://github.com/sinj0x7/keycam">repo</a>
-  </p>
 </section>
 
-<section class="block">
-  <p class="who">resolve</p>
+<section class="block s-curve">
+  <div class="top">
+    <p class="who">resolve</p>
+    <p class="links">
+      <a href="https://sinj0x7.github.io/curveloupe">site</a>
+      <a href="https://github.com/sinj0x7/curveloupe">repo</a>
+    </p>
+  </div>
   <h2>CurveLoupe</h2>
   <p>
     Fusion’s spline editor is too small. Same bezier, bigger window, writes
@@ -248,34 +356,40 @@
   </p>
   <canvas class="curve" id="cv"></canvas>
   <p class="hint">drag the handles</p>
-  <p class="links">
-    <a href="https://sinj0x7.github.io/curveloupe">site</a>
-    <a href="https://github.com/sinj0x7/curveloupe">repo</a>
-  </p>
 </section>
 
-<section class="block">
-  <p class="who">webcam</p>
+<section class="block s-lasers">
+  <div class="top">
+    <p class="who">webcam</p>
+    <p class="links">
+      <a href="https://github.com/sinj0x7/laser-eyes">repo</a>
+    </p>
+  </div>
   <h2>laser-eyes</h2>
   <p>Lasers from your webcam, over Discord. Move around in this window.</p>
   <canvas class="eyes" id="eyes"></canvas>
-  <p class="links">
-    <a href="https://github.com/sinj0x7/laser-eyes">repo</a>
-  </p>
 </section>
 
-<section class="block">
-  <p class="who">spotify</p>
+<section class="block s-music">
+  <div class="top">
+    <p class="who">spotify</p>
+    <p class="links">
+      <a href="https://github.com/sinj0x7/damusic">repo</a>
+    </p>
+  </div>
   <h2>damusic</h2>
   <p>Your listening, pulled into stats.</p>
   <div class="eq" id="eq"></div>
-  <p class="links">
-    <a href="https://github.com/sinj0x7/damusic">repo</a>
-  </p>
 </section>
 
-<section class="block">
-  <p class="who">browser</p>
+<section class="block s-ani">
+  <div class="top">
+    <p class="who">browser</p>
+    <p class="links">
+      <a href="https://sinj0x7.github.io/Animio">site</a>
+      <a href="https://github.com/sinj0x7/Animio">repo</a>
+    </p>
+  </div>
   <h2>Animio</h2>
   <p>A small anime browser. Top airing, trending, top rated.</p>
   <div class="ani">
@@ -304,14 +418,16 @@
       </ol>
     </div>
   </div>
-  <p class="links">
-    <a href="https://sinj0x7.github.io/Animio">site</a>
-    <a href="https://github.com/sinj0x7/Animio">repo</a>
-  </p>
 </section>
 
-<section class="block">
-  <p class="who">notes</p>
+<section class="block s-notes">
+  <div class="top">
+    <p class="who">notes</p>
+    <p class="links">
+      <a href="https://goofy-notes.vercel.app">site</a>
+      <a href="https://github.com/sinj0x7/moodboard">repo</a>
+    </p>
+  </div>
   <h2>moodboard</h2>
   <p>Notes on a board. Drag them.</p>
   <div class="board" id="notes">
@@ -319,14 +435,15 @@
     <div class="note" style="left:220px;top:88px">later: fix the overlay so lock actually click-throughs</div>
     <div class="note" style="left:430px;top:40px">friend still hates Fusion’s tiny graphs</div>
   </div>
-  <p class="links">
-    <a href="https://goofy-notes.vercel.app">site</a>
-    <a href="https://github.com/sinj0x7/moodboard">repo</a>
-  </p>
 </section>
 
-<section class="block">
-  <p class="who">42</p>
+<section class="block s-c">
+  <div class="top">
+    <p class="who">42</p>
+    <p class="links">
+      <a href="https://github.com/sinj0x7/1337">repo</a>
+    </p>
+  </div>
   <h2>1337</h2>
   <p>C from the piscine.</p>
   <pre><span class="cm">/* 1337 / 42 piscine */</span>
@@ -339,9 +456,6 @@
 		i++;
 	<span class="kw">return</span> (i);
 }</pre>
-  <p class="links">
-    <a href="https://github.com/sinj0x7/1337">repo</a>
-  </p>
 </section>
 
 <footer>
@@ -422,7 +536,7 @@
   var pad = 28, dragging = null;
   function fitCurve() {
     cv.width = Math.max(320, cv.clientWidth);
-    cv.height = 280;
+    cv.height = 300;
     drawCurve();
   }
   function xy(p) {
@@ -485,7 +599,7 @@
   var mouse = { x: 0.5, y: 0.45 };
   function fitEyes() {
     eyes.width = Math.max(320, eyes.clientWidth);
-    eyes.height = 240;
+    eyes.height = 260;
     drawEyes();
   }
   function drawEyes() {
