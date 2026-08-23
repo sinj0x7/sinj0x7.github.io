@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sinj0x7</title>
+<meta name="description" content="Tools by sinj0x7. CurveLoupe, Keycam, and whatever’s next.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #121212;
+    color: #d8d4cc;
+    font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 64px 24px 96px;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 36px;
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    color: #f2f2f2;
+  }
+  .links { margin-top: 10px; color: #8c877c; font-size: 14px; }
+  .links a { color: #8c877c; text-decoration: none; }
+  .links a:hover { color: #f2f2f2; }
+  .intro { margin: 36px 0 48px; max-width: 540px; }
+  .intro p { margin-bottom: 12px; }
+  h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8c877c;
+    margin-bottom: 18px;
+  }
+  .work { display: flex; flex-direction: column; gap: 14px; }
+  article {
+    background: #101010;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 22px 22px 20px;
+  }
+  article h3 {
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  .curve h3 { color: #f5a044; }
+  .keycam h3 { color: #f2f2f2; }
+  article p { color: #c8c2b6; margin-bottom: 14px; }
+  .meta a {
+    color: #8c877c;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 14px;
+  }
+  .meta a:hover { color: #f2f2f2; }
+  .curve .meta a:hover { color: #f5a044; }
+  .strip {
+    height: 8px;
+    border-radius: 4px;
+    margin: 16px 0 0;
+  }
+  .curve .strip { background: #f5a044; }
+  .keys {
+    display: flex;
+    gap: 5px;
+    margin-top: 16px;
+  }
+  .keys i {
+    display: block;
+    height: 28px;
+    border-radius: 4px;
+    background: #2c2c2c;
+    flex: 1;
+  }
+  .keys i:nth-child(1) { background: #c45c5c; }
+  .keys i:nth-child(2) { background: #d4a04a; }
+  .keys i:nth-child(3) { background: #5cbf8a; }
+  .keys i:nth-child(4) { background: #5a8fd4; }
+  .keys i:nth-child(5) { background: #8a6ad4; }
+  .keys i:nth-child(6) { background: #c45c9a; }
+  footer {
+    margin-top: 56px;
+    color: #8c877c;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>sinj0x7</h1>
+  <div class="links">
+    <a href="https://github.com/sinj0x7">github</a>
+    ·
+    <a href="https://instagram.com/offgridkhaled">instagram</a>
+  </div>
+
+  <div class="intro">
+    <p>
+      I make small tools. Usually because a friend was stuck, then I leave
+      them up in case someone else is too.
+    </p>
+    <p>Free. MIT. Windows, Resolve, whatever I’m in that week.</p>
+  </div>
+
+  <h2>Work</h2>
+  <div class="work">
+
+    <article class="curve">
+      <h3>CurveLoupe</h3>
+      <p>
+        Fusion’s spline editor is tiny. This opens the same bezier on a big
+        window and writes it back onto your keyframes in DaVinci Resolve.
+      </p>
+      <div class="meta">
+        <a href="https://sinj0x7.github.io/curveloupe">site</a>
+        <a href="https://github.com/sinj0x7/curveloupe">github</a>
+      </div>
+      <div class="strip"></div>
+    </article>
+
+    <article class="keycam">
+      <h3>Keycam</h3>
+      <p>
+        Streamer keyboard overlay. Sit it on the game, lock it, keys light
+        up as you type. Themes, resize, no hand cam.
+      </p>
+      <div class="meta">
+        <a href="https://sinj0x7.github.io/keycam">site</a>
+        <a href="https://github.com/sinj0x7/keycam">github</a>
+      </div>
+      <div class="keys" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+    </article>
+
+  </div>
+
+  <footer>sinj0x7 · 2026</footer>
+
+</main>
+</body>
+</html>
