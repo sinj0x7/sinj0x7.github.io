@@ -7,65 +7,110 @@
 <meta name="description" content="sinj0x7 — CurveLoupe, Keycam, and the rest.">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { min-height: 100%; }
   body {
-    background: #141414;
-    color: #d8d4cc;
-    font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif;
-    padding: 56px 24px 80px;
+    background: #efece4;
+    color: #161616;
+    font: 16px/1.6 Helvetica, Arial, sans-serif;
   }
-  main { max-width: 680px; margin: 0 auto; }
-  h1 {
-    font-size: 28px;
-    font-weight: 650;
+  a { color: #161616; }
+  a:hover { color: #c31212; }
+  .shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+  }
+  .rail {
+    background: #111;
+    color: #efece4;
+    padding: 28px 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .rail h1 {
+    font: italic 700 34px/0.95 "Times New Roman", Times, serif;
     letter-spacing: -0.03em;
-    color: #f5a044;
+  }
+  .rail .tag {
+    margin-top: 14px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a8680;
+  }
+  .rail nav { font-size: 13px; }
+  .rail nav a {
+    color: #efece4;
+    text-decoration: none;
+    display: block;
     margin-bottom: 6px;
   }
-  .by { color: #8c877c; font-size: 14px; margin-bottom: 28px; }
-  .by a { color: #f5a044; }
-  p { margin-bottom: 16px; }
-  a { color: #f5a044; }
-  hr { border: 0; border-top: 1px solid #2a2a2a; margin: 36px 0; }
-  h2 { font-size: 15px; font-weight: 600; color: #8c877c; margin-bottom: 12px; }
-  h3 {
-    font-size: 22px;
-    font-weight: 650;
-    letter-spacing: -0.03em;
-    color: #f5a044;
+  .rail nav a:hover { color: #ff4d3a; }
+  .work {
+    padding: 48px 56px 88px;
+    max-width: 860px;
+  }
+  .lede {
+    font: italic 22px/1.45 "Times New Roman", Times, serif;
+    max-width: 34em;
+    margin-bottom: 48px;
+  }
+  .piece {
+    padding: 36px 0;
+    border-top: 1px solid #161616;
+  }
+  .piece header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
     margin-bottom: 10px;
   }
-  .more a { color: #f5a044; text-decoration: none; }
-  .more a:hover { text-decoration: underline; }
+  .n {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: #8a8680;
+  }
+  h2 {
+    font: italic 700 36px/1 "Times New Roman", Times, serif;
+    letter-spacing: -0.03em;
+  }
+  .piece p { margin-bottom: 14px; max-width: 38em; }
+  .links { font-size: 13px; }
+  .links a { margin-right: 14px; }
   canvas {
     display: block;
     width: 100%;
-    height: 220px;
-    background: #101010;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
+    height: 280px;
+    background: #e4e0d6;
     cursor: grab;
     touch-action: none;
-    margin: 8px 0 12px;
+    margin: 8px 0 8px;
   }
   canvas.grabbing { cursor: grabbing; }
-  .hint { color: #8c877c; font-size: 13px; margin: -4px 0 12px; }
+  .hint {
+    font-size: 12px;
+    color: #8a8680;
+    margin-bottom: 14px;
+  }
   .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 52px 52px 40px;
-    gap: 6px;
-    background: #101010;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
-    padding: 12px;
-    margin: 8px 0 12px;
+    grid-template-rows: 56px 56px 42px;
+    gap: 8px;
+    background: #e4e0d6;
+    padding: 14px;
+    margin: 8px 0 8px;
   }
   .board button {
-    border: 0;
-    border-radius: 5px;
-    background: #2c2c2c;
-    color: #d8d8d8;
-    font: 600 14px "Segoe UI", system-ui, sans-serif;
+    border: 1.5px solid #161616;
+    background: transparent;
+    color: #161616;
+    font: 700 14px Helvetica, Arial, sans-serif;
     cursor: pointer;
   }
   .board button[data-k="w"] { grid-column: 2; grid-row: 1; }
@@ -73,121 +118,168 @@
   .board button[data-k="s"] { grid-column: 2; grid-row: 2; }
   .board button[data-k="d"] { grid-column: 3; grid-row: 2; }
   .board button.wide { grid-column: 1 / -1; grid-row: 3; }
-  .board button.lit { background: #f5a044; color: #141414; }
-  .rest { list-style: none; }
-  .rest li {
-    padding: 18px 0;
-    border-bottom: 1px solid #2a2a2a;
+  .board button.lit {
+    background: #161616;
+    color: #efece4;
   }
-  .rest li:last-child { border-bottom: 0; }
-  .rest b {
-    display: block;
-    font-weight: 650;
-    color: #f5a044;
-    margin-bottom: 4px;
+  .index { padding-top: 36px; border-top: 1px solid #161616; }
+  .index h3 {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a8680;
+    margin-bottom: 8px;
   }
-  .rest p { margin-bottom: 6px; }
-  .rest a { text-decoration: none; }
-  .rest a:hover { text-decoration: underline; }
-  footer { margin-top: 48px; color: #8c877c; font-size: 13px; }
-  footer a { color: #8c877c; }
-  footer a:hover { color: #f5a044; }
+  .index .row {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid #d4d0c6;
+  }
+  .index b { font: italic 700 18px "Times New Roman", Times, serif; }
+  .index span { color: #5c5852; font-size: 14px; }
+  .index em {
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8a8680;
+  }
+  .index em a { text-decoration: none; }
+  @media (max-width: 800px) {
+    .shell { grid-template-columns: 1fr; }
+    .rail {
+      position: relative;
+      height: auto;
+      flex-direction: row;
+      align-items: end;
+      padding: 20px;
+    }
+    .rail .tag { margin-top: 8px; }
+    .rail nav { text-align: right; }
+    .work { padding: 32px 20px 64px; }
+    h2 { font-size: 28px; }
+    .lede { font-size: 19px; }
+    .index .row {
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+    }
+    .index .row b { grid-column: 1; }
+    .index .row em { grid-column: 2; grid-row: 1; }
+    .index .row span { grid-column: 1 / -1; }
+  }
 </style>
 </head>
 <body>
-<main>
+<div class="shell">
+  <aside class="rail">
+    <div>
+      <h1>sinj0x7</h1>
+      <p class="tag">tools</p>
+    </div>
+    <nav>
+      <a href="https://github.com/sinj0x7">github</a>
+      <a href="https://instagram.com/offgridkhaled">instagram</a>
+    </nav>
+  </aside>
 
-  <h1>sinj0x7</h1>
-  <p class="by">
-    <a href="https://github.com/sinj0x7">github</a>
-    · <a href="https://instagram.com/offgridkhaled">instagram</a>
-  </p>
+  <main class="work">
+    <p class="lede">
+      I make tools when something’s in the way. A friend stuck on Resolve
+      graphs. No hand cam on stream. Then I put it up in case someone else
+      hits the same wall.
+    </p>
 
-  <p>
-    I make tools when something’s in the way. A friend stuck on Resolve
-    graphs. No hand cam on stream. Then I put it up in case someone else
-    hits the same wall.
-  </p>
+    <article class="piece">
+      <header>
+        <h2>CurveLoupe</h2>
+        <span class="n">01</span>
+      </header>
+      <p>
+        Fusion’s spline editor is too small. This is the same bezier, bigger
+        window, writes straight back into DaVinci Resolve.
+      </p>
+      <canvas id="cv" width="760" height="280"></canvas>
+      <p class="hint">drag the handles</p>
+      <p class="links">
+        <a href="https://sinj0x7.github.io/curveloupe">site</a>
+        <a href="https://github.com/sinj0x7/curveloupe">repo</a>
+      </p>
+    </article>
 
-  <hr>
+    <article class="piece">
+      <header>
+        <h2>Keycam</h2>
+        <span class="n">02</span>
+      </header>
+      <p>
+        Keyboard overlay for streams. Drop it on the game, lock it, keys light
+        up. Themes, resize, spectrum if you want every key a different color.
+      </p>
+      <div class="board" id="board">
+        <button data-k="w">W</button>
+        <button data-k="a">A</button>
+        <button data-k="s">S</button>
+        <button data-k="d">D</button>
+        <button data-k=" " class="wide">space</button>
+      </div>
+      <p class="hint">click the keys, or press them</p>
+      <p class="links">
+        <a href="https://sinj0x7.github.io/keycam">site</a>
+        <a href="https://github.com/sinj0x7/keycam">repo</a>
+      </p>
+    </article>
 
-  <h3>CurveLoupe</h3>
-  <p>
-    Fusion’s spline editor is too small. This is the same bezier, bigger
-    window, writes straight back into DaVinci Resolve.
-  </p>
-  <canvas id="cv" width="680" height="220"></canvas>
-  <p class="hint">drag the handles</p>
-  <p class="more">
-    <a href="https://sinj0x7.github.io/curveloupe">site</a>
-    · <a href="https://github.com/sinj0x7/curveloupe">repo</a>
-  </p>
-
-  <hr>
-
-  <h3>Keycam</h3>
-  <p>
-    Keyboard overlay for streams. Drop it on the game, lock it, keys light
-    up. Themes, resize, spectrum if you want every key a different color.
-  </p>
-  <div class="board" id="board">
-    <button data-k="w">W</button>
-    <button data-k="a">A</button>
-    <button data-k="s">S</button>
-    <button data-k="d">D</button>
-    <button data-k=" " class="wide">space</button>
-  </div>
-  <p class="hint">click the keys, or press them</p>
-  <p class="more">
-    <a href="https://sinj0x7.github.io/keycam">site</a>
-    · <a href="https://github.com/sinj0x7/keycam">repo</a>
-  </p>
-
-  <hr>
-
-  <h2>the rest</h2>
-  <ul class="rest">
-    <li>
-      <b>laser-eyes</b>
-      <p>Lasers from your webcam, over Discord.</p>
-      <a href="https://github.com/sinj0x7/laser-eyes">repo</a>
-    </li>
-    <li>
-      <b>damusic</b>
-      <p>Your Spotify listening, pulled into stats.</p>
-      <a href="https://github.com/sinj0x7/damusic">repo</a>
-    </li>
-    <li>
-      <b>Animio</b>
-      <p>A small anime browser.</p>
-      <a href="https://sinj0x7.github.io/Animio">site</a>
-      · <a href="https://github.com/sinj0x7/Animio">repo</a>
-    </li>
-    <li>
-      <b>moodboard</b>
-      <p>Notes on a board.</p>
-      <a href="https://goofy-notes.vercel.app">site</a>
-      · <a href="https://github.com/sinj0x7/moodboard">repo</a>
-    </li>
-    <li>
-      <b>1337</b>
-      <p>C from the 42 piscine.</p>
-      <a href="https://github.com/sinj0x7/1337">repo</a>
-    </li>
-  </ul>
-
-  <footer>
-    <a href="https://github.com/sinj0x7">github</a>
-    · <a href="https://instagram.com/offgridkhaled">instagram</a>
-  </footer>
-
-</main>
+    <section class="index">
+      <h3>the rest</h3>
+      <div class="row">
+        <b>laser-eyes</b>
+        <span>lasers from your webcam, over Discord</span>
+        <em><a href="https://github.com/sinj0x7/laser-eyes">repo</a></em>
+      </div>
+      <div class="row">
+        <b>damusic</b>
+        <span>your Spotify listening, pulled into stats</span>
+        <em><a href="https://github.com/sinj0x7/damusic">repo</a></em>
+      </div>
+      <div class="row">
+        <b>Animio</b>
+        <span>a small anime browser</span>
+        <em>
+          <a href="https://sinj0x7.github.io/Animio">site</a>
+          · <a href="https://github.com/sinj0x7/Animio">repo</a>
+        </em>
+      </div>
+      <div class="row">
+        <b>moodboard</b>
+        <span>notes on a board</span>
+        <em>
+          <a href="https://goofy-notes.vercel.app">site</a>
+          · <a href="https://github.com/sinj0x7/moodboard">repo</a>
+        </em>
+      </div>
+      <div class="row">
+        <b>1337</b>
+        <span>C from the 42 piscine</span>
+        <em><a href="https://github.com/sinj0x7/1337">repo</a></em>
+      </div>
+    </section>
+  </main>
+</div>
 <script>
 (function () {
   var cv = document.getElementById("cv");
   var ctx = cv.getContext("2d");
   var p1 = { x: 0.42, y: 0 }, p2 = { x: 0.58, y: 1 };
   var pad = 28, dragging = null;
+
+  function fit() {
+    cv.width = Math.max(320, cv.clientWidth);
+    cv.height = 280;
+    draw();
+  }
   function xy(p) {
     return {
       x: pad + p.x * (cv.width - pad * 2),
@@ -196,24 +288,24 @@
   }
   function draw() {
     var w = cv.width, h = cv.height;
-    ctx.fillStyle = "#101010";
+    ctx.fillStyle = "#e4e0d6";
     ctx.fillRect(0, 0, w, h);
     var a = xy({ x: 0, y: 0 }), b = xy({ x: 1, y: 1 });
     var c1 = xy(p1), c2 = xy(p2);
-    ctx.strokeStyle = "#2a2a2a";
+    ctx.strokeStyle = "#c4bfb3";
     ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(c1.x, c1.y); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(c2.x, c2.y); ctx.stroke();
-    ctx.strokeStyle = "#f5a044";
+    ctx.strokeStyle = "#161616";
     ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, b.x, b.y); ctx.stroke();
     ctx.lineWidth = 1;
     [a, b].forEach(function (p) {
-      ctx.fillStyle = "#f5a044";
+      ctx.fillStyle = "#161616";
       ctx.fillRect(p.x - 4, p.y - 4, 8, 8);
     });
     [c1, c2].forEach(function (p) {
       ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
-      ctx.fillStyle = "#f2dcb4"; ctx.fill();
+      ctx.fillStyle = "#161616"; ctx.fill();
     });
   }
   function hit(mx, my) {
@@ -242,7 +334,8 @@
   ["pointerup", "pointercancel"].forEach(function (n) {
     cv.addEventListener(n, function () { dragging = null; cv.classList.remove("grabbing"); });
   });
-  draw();
+  window.addEventListener("resize", fit);
+  fit();
 
   var board = document.getElementById("board");
   var map = { KeyA: "a", KeyS: "s", KeyD: "d", KeyW: "w", Space: " " };
