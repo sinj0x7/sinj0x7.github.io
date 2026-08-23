@@ -4,143 +4,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sinj0x7</title>
-<meta name="description" content="Tools by sinj0x7. CurveLoupe, Keycam, and whatever’s next.">
+<meta name="description" content="sinj0x7 — repos and tools.">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #121212;
-    color: #d8d4cc;
-    font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif;
-    padding: 64px 24px 96px;
+    background: #111;
+    color: #c8c4bc;
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 48px 20px 80px;
   }
-  main { max-width: 720px; margin: 0 auto; }
+  main { max-width: 780px; margin: 0 auto; }
+  header { margin-bottom: 40px; }
   h1 {
-    font-size: 36px;
-    font-weight: 650;
-    letter-spacing: -0.045em;
-    color: #f2f2f2;
-  }
-  .links { margin-top: 10px; color: #8c877c; font-size: 14px; }
-  .links a { color: #8c877c; text-decoration: none; }
-  .links a:hover { color: #f2f2f2; }
-  .intro { margin: 36px 0 48px; max-width: 540px; }
-  .intro p { margin-bottom: 12px; }
-  h2 {
-    font-size: 13px;
+    font-size: 20px;
     font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #8c877c;
-    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+    color: #eee;
   }
-  .work { display: flex; flex-direction: column; gap: 14px; }
-  article {
-    background: #101010;
-    border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    padding: 22px 22px 20px;
+  nav { margin-top: 8px; font-size: 14px; color: #6e6a64; }
+  nav a { color: #6e6a64; }
+  nav a:hover { color: #eee; }
+  .lead { margin-bottom: 36px; color: #9a958c; max-width: 420px; }
+  ul { list-style: none; border-top: 1px solid #2a2a2a; }
+  li {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid #2a2a2a;
   }
-  article h3 {
-    font-size: 22px;
-    font-weight: 650;
-    letter-spacing: -0.03em;
-    margin-bottom: 8px;
-  }
-  .curve h3 { color: #f5a044; }
-  .keycam h3 { color: #f2f2f2; }
-  article p { color: #c8c2b6; margin-bottom: 14px; }
-  .meta a {
-    color: #8c877c;
+  li a.name {
+    color: #eee;
     text-decoration: none;
-    font-size: 14px;
-    margin-right: 14px;
+    font-weight: 550;
   }
-  .meta a:hover { color: #f2f2f2; }
-  .curve .meta a:hover { color: #f5a044; }
-  .strip {
-    height: 8px;
-    border-radius: 4px;
-    margin: 16px 0 0;
-  }
-  .curve .strip { background: #f5a044; }
-  .keys {
-    display: flex;
-    gap: 5px;
-    margin-top: 16px;
-  }
-  .keys i {
-    display: block;
-    height: 28px;
-    border-radius: 4px;
-    background: #2c2c2c;
-    flex: 1;
-  }
-  .keys i:nth-child(1) { background: #c45c5c; }
-  .keys i:nth-child(2) { background: #d4a04a; }
-  .keys i:nth-child(3) { background: #5cbf8a; }
-  .keys i:nth-child(4) { background: #5a8fd4; }
-  .keys i:nth-child(5) { background: #8a6ad4; }
-  .keys i:nth-child(6) { background: #c45c9a; }
-  footer {
-    margin-top: 56px;
-    color: #8c877c;
-    font-size: 13px;
+  li a.name:hover { text-decoration: underline; }
+  .about { color: #8a8680; font-size: 15px; }
+  .go { font-size: 13px; white-space: nowrap; color: #6e6a64; }
+  .go a { color: #6e6a64; text-decoration: none; margin-left: 10px; }
+  .go a:hover { color: #eee; }
+  @media (max-width: 620px) {
+    li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 14px 0;
+    }
+    .go { margin-top: 4px; }
+    .go a:first-child { margin-left: 0; }
   }
 </style>
 </head>
 <body>
 <main>
+  <header>
+    <h1>sinj0x7</h1>
+    <nav>
+      <a href="https://github.com/sinj0x7">github</a>
+      ·
+      <a href="https://instagram.com/offgridkhaled">instagram</a>
+    </nav>
+  </header>
 
-  <h1>sinj0x7</h1>
-  <div class="links">
-    <a href="https://github.com/sinj0x7">github</a>
-    ·
-    <a href="https://instagram.com/offgridkhaled">instagram</a>
-  </div>
+  <p class="lead">Repos. The ones with a site are the ones I actually shipped.</p>
 
-  <div class="intro">
-    <p>
-      I make small tools. Usually because a friend was stuck, then I leave
-      them up in case someone else is too.
-    </p>
-    <p>Free. MIT. Windows, Resolve, whatever I’m in that week.</p>
-  </div>
-
-  <h2>Work</h2>
-  <div class="work">
-
-    <article class="curve">
-      <h3>CurveLoupe</h3>
-      <p>
-        Fusion’s spline editor is tiny. This opens the same bezier on a big
-        window and writes it back onto your keyframes in DaVinci Resolve.
-      </p>
-      <div class="meta">
-        <a href="https://sinj0x7.github.io/curveloupe">site</a>
-        <a href="https://github.com/sinj0x7/curveloupe">github</a>
-      </div>
-      <div class="strip"></div>
-    </article>
-
-    <article class="keycam">
-      <h3>Keycam</h3>
-      <p>
-        Streamer keyboard overlay. Sit it on the game, lock it, keys light
-        up as you type. Themes, resize, no hand cam.
-      </p>
-      <div class="meta">
+  <ul>
+    <li>
+      <a class="name" href="https://github.com/sinj0x7/keycam">keycam</a>
+      <span class="about">keyboard overlay for streams</span>
+      <span class="go">
         <a href="https://sinj0x7.github.io/keycam">site</a>
-        <a href="https://github.com/sinj0x7/keycam">github</a>
-      </div>
-      <div class="keys" aria-hidden="true">
-        <i></i><i></i><i></i><i></i><i></i><i></i>
-      </div>
-    </article>
-
-  </div>
-
-  <footer>sinj0x7 · 2026</footer>
-
+        <a href="https://github.com/sinj0x7/keycam">repo</a>
+      </span>
+    </li>
+    <li>
+      <a class="name" href="https://github.com/sinj0x7/curveloupe">curveloupe</a>
+      <span class="about">bigger graphs for DaVinci Resolve</span>
+      <span class="go">
+        <a href="https://sinj0x7.github.io/curveloupe">site</a>
+        <a href="https://github.com/sinj0x7/curveloupe">repo</a>
+      </span>
+    </li>
+    <li>
+      <a class="name" href="https://github.com/sinj0x7/1337">1337</a>
+      <span class="about">42 piscine, C</span>
+      <span class="go">
+        <a href="https://github.com/sinj0x7/1337">repo</a>
+      </span>
+    </li>
+    <li>
+      <a class="name" href="https://github.com/sinj0x7/moodboard">moodboard</a>
+      <span class="about">notes / board</span>
+      <span class="go">
+        <a href="https://goofy-notes.vercel.app">site</a>
+        <a href="https://github.com/sinj0x7/moodboard">repo</a>
+      </span>
+    </li>
+    <li>
+      <a class="name" href="https://github.com/sinj0x7/Animio">Animio</a>
+      <span class="about">anime browser</span>
+      <span class="go">
+        <a href="https://sinj0x7.github.io/Animio">site</a>
+        <a href="https://github.com/sinj0x7/Animio">repo</a>
+      </span>
+    </li>
+    <li>
+      <a class="name" href="https://github.com/sinj0x7/laser-eyes">laser-eyes</a>
+      <span class="about">webcam lasers for Discord</span>
+      <span class="go">
+        <a href="https://github.com/sinj0x7/laser-eyes">repo</a>
+      </span>
+    </li>
+    <li>
+      <a class="name" href="https://github.com/sinj0x7/damusic">damusic</a>
+      <span class="about">Spotify stats</span>
+      <span class="go">
+        <a href="https://github.com/sinj0x7/damusic">repo</a>
+      </span>
+    </li>
+  </ul>
 </main>
 </body>
 </html>
