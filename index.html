@@ -4,125 +4,274 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sinj0x7</title>
-<meta name="description" content="sinj0x7 — repos and tools.">
+<meta name="description" content="sinj0x7 — CurveLoupe, Keycam, and the rest.">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #111;
-    color: #c8c4bc;
-    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
-    padding: 48px 20px 80px;
+    background: #141414;
+    color: #d8d4cc;
+    font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 56px 24px 80px;
   }
-  main { max-width: 780px; margin: 0 auto; }
-  header { margin-bottom: 40px; }
+  main { max-width: 680px; margin: 0 auto; }
   h1 {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: #eee;
+    font-size: 28px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    color: #f5a044;
+    margin-bottom: 6px;
   }
-  nav { margin-top: 8px; font-size: 14px; color: #6e6a64; }
-  nav a { color: #6e6a64; }
-  nav a:hover { color: #eee; }
-  .lead { margin-bottom: 36px; color: #9a958c; max-width: 420px; }
-  ul { list-style: none; border-top: 1px solid #2a2a2a; }
-  li {
+  .by { color: #8c877c; font-size: 14px; margin-bottom: 28px; }
+  .by a { color: #f5a044; }
+  p { margin-bottom: 16px; }
+  a { color: #f5a044; }
+  hr { border: 0; border-top: 1px solid #2a2a2a; margin: 36px 0; }
+  h2 { font-size: 15px; font-weight: 600; color: #8c877c; margin-bottom: 12px; }
+  h3 {
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    color: #f5a044;
+    margin-bottom: 10px;
+  }
+  .more a { color: #f5a044; text-decoration: none; }
+  .more a:hover { text-decoration: underline; }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 220px;
+    background: #101010;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    cursor: grab;
+    touch-action: none;
+    margin: 8px 0 12px;
+  }
+  canvas.grabbing { cursor: grabbing; }
+  .hint { color: #8c877c; font-size: 13px; margin: -4px 0 12px; }
+  .board {
     display: grid;
-    grid-template-columns: 140px 1fr auto;
-    gap: 16px;
-    align-items: baseline;
-    padding: 12px 0;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 52px 52px 40px;
+    gap: 6px;
+    background: #101010;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0 12px;
+  }
+  .board button {
+    border: 0;
+    border-radius: 5px;
+    background: #2c2c2c;
+    color: #d8d8d8;
+    font: 600 14px "Segoe UI", system-ui, sans-serif;
+    cursor: pointer;
+  }
+  .board button[data-k="w"] { grid-column: 2; grid-row: 1; }
+  .board button[data-k="a"] { grid-column: 1; grid-row: 2; }
+  .board button[data-k="s"] { grid-column: 2; grid-row: 2; }
+  .board button[data-k="d"] { grid-column: 3; grid-row: 2; }
+  .board button.wide { grid-column: 1 / -1; grid-row: 3; }
+  .board button.lit { background: #f5a044; color: #141414; }
+  .rest { list-style: none; }
+  .rest li {
+    padding: 18px 0;
     border-bottom: 1px solid #2a2a2a;
   }
-  li a.name {
-    color: #eee;
-    text-decoration: none;
-    font-weight: 550;
+  .rest li:last-child { border-bottom: 0; }
+  .rest b {
+    display: block;
+    font-weight: 650;
+    color: #f5a044;
+    margin-bottom: 4px;
   }
-  li a.name:hover { text-decoration: underline; }
-  .about { color: #8a8680; font-size: 15px; }
-  .go { font-size: 13px; white-space: nowrap; color: #6e6a64; }
-  .go a { color: #6e6a64; text-decoration: none; margin-left: 10px; }
-  .go a:hover { color: #eee; }
-  @media (max-width: 620px) {
-    li {
-      grid-template-columns: 1fr;
-      gap: 4px;
-      padding: 14px 0;
-    }
-    .go { margin-top: 4px; }
-    .go a:first-child { margin-left: 0; }
-  }
+  .rest p { margin-bottom: 6px; }
+  .rest a { text-decoration: none; }
+  .rest a:hover { text-decoration: underline; }
+  footer { margin-top: 48px; color: #8c877c; font-size: 13px; }
+  footer a { color: #8c877c; }
+  footer a:hover { color: #f5a044; }
 </style>
 </head>
 <body>
 <main>
-  <header>
-    <h1>sinj0x7</h1>
-    <nav>
-      <a href="https://github.com/sinj0x7">github</a>
-      ·
-      <a href="https://instagram.com/offgridkhaled">instagram</a>
-    </nav>
-  </header>
 
-  <p class="lead">Repos. The ones with a site are the ones I actually shipped.</p>
+  <h1>sinj0x7</h1>
+  <p class="by">
+    <a href="https://github.com/sinj0x7">github</a>
+    · <a href="https://instagram.com/offgridkhaled">instagram</a>
+  </p>
 
-  <ul>
+  <p>
+    I make tools when something’s in the way. A friend stuck on Resolve
+    graphs. No hand cam on stream. Then I put it up in case someone else
+    hits the same wall.
+  </p>
+
+  <hr>
+
+  <h3>CurveLoupe</h3>
+  <p>
+    Fusion’s spline editor is too small. This is the same bezier, bigger
+    window, writes straight back into DaVinci Resolve.
+  </p>
+  <canvas id="cv" width="680" height="220"></canvas>
+  <p class="hint">drag the handles</p>
+  <p class="more">
+    <a href="https://sinj0x7.github.io/curveloupe">site</a>
+    · <a href="https://github.com/sinj0x7/curveloupe">repo</a>
+  </p>
+
+  <hr>
+
+  <h3>Keycam</h3>
+  <p>
+    Keyboard overlay for streams. Drop it on the game, lock it, keys light
+    up. Themes, resize, spectrum if you want every key a different color.
+  </p>
+  <div class="board" id="board">
+    <button data-k="w">W</button>
+    <button data-k="a">A</button>
+    <button data-k="s">S</button>
+    <button data-k="d">D</button>
+    <button data-k=" " class="wide">space</button>
+  </div>
+  <p class="hint">click the keys, or press them</p>
+  <p class="more">
+    <a href="https://sinj0x7.github.io/keycam">site</a>
+    · <a href="https://github.com/sinj0x7/keycam">repo</a>
+  </p>
+
+  <hr>
+
+  <h2>the rest</h2>
+  <ul class="rest">
     <li>
-      <a class="name" href="https://github.com/sinj0x7/keycam">keycam</a>
-      <span class="about">keyboard overlay for streams</span>
-      <span class="go">
-        <a href="https://sinj0x7.github.io/keycam">site</a>
-        <a href="https://github.com/sinj0x7/keycam">repo</a>
-      </span>
+      <b>laser-eyes</b>
+      <p>Lasers from your webcam, over Discord.</p>
+      <a href="https://github.com/sinj0x7/laser-eyes">repo</a>
     </li>
     <li>
-      <a class="name" href="https://github.com/sinj0x7/curveloupe">curveloupe</a>
-      <span class="about">bigger graphs for DaVinci Resolve</span>
-      <span class="go">
-        <a href="https://sinj0x7.github.io/curveloupe">site</a>
-        <a href="https://github.com/sinj0x7/curveloupe">repo</a>
-      </span>
+      <b>damusic</b>
+      <p>Your Spotify listening, pulled into stats.</p>
+      <a href="https://github.com/sinj0x7/damusic">repo</a>
     </li>
     <li>
-      <a class="name" href="https://github.com/sinj0x7/1337">1337</a>
-      <span class="about">42 piscine, C</span>
-      <span class="go">
-        <a href="https://github.com/sinj0x7/1337">repo</a>
-      </span>
+      <b>Animio</b>
+      <p>A small anime browser.</p>
+      <a href="https://sinj0x7.github.io/Animio">site</a>
+      · <a href="https://github.com/sinj0x7/Animio">repo</a>
     </li>
     <li>
-      <a class="name" href="https://github.com/sinj0x7/moodboard">moodboard</a>
-      <span class="about">notes / board</span>
-      <span class="go">
-        <a href="https://goofy-notes.vercel.app">site</a>
-        <a href="https://github.com/sinj0x7/moodboard">repo</a>
-      </span>
+      <b>moodboard</b>
+      <p>Notes on a board.</p>
+      <a href="https://goofy-notes.vercel.app">site</a>
+      · <a href="https://github.com/sinj0x7/moodboard">repo</a>
     </li>
     <li>
-      <a class="name" href="https://github.com/sinj0x7/Animio">Animio</a>
-      <span class="about">anime browser</span>
-      <span class="go">
-        <a href="https://sinj0x7.github.io/Animio">site</a>
-        <a href="https://github.com/sinj0x7/Animio">repo</a>
-      </span>
-    </li>
-    <li>
-      <a class="name" href="https://github.com/sinj0x7/laser-eyes">laser-eyes</a>
-      <span class="about">webcam lasers for Discord</span>
-      <span class="go">
-        <a href="https://github.com/sinj0x7/laser-eyes">repo</a>
-      </span>
-    </li>
-    <li>
-      <a class="name" href="https://github.com/sinj0x7/damusic">damusic</a>
-      <span class="about">Spotify stats</span>
-      <span class="go">
-        <a href="https://github.com/sinj0x7/damusic">repo</a>
-      </span>
+      <b>1337</b>
+      <p>C from the 42 piscine.</p>
+      <a href="https://github.com/sinj0x7/1337">repo</a>
     </li>
   </ul>
+
+  <footer>
+    <a href="https://github.com/sinj0x7">github</a>
+    · <a href="https://instagram.com/offgridkhaled">instagram</a>
+  </footer>
+
 </main>
+<script>
+(function () {
+  var cv = document.getElementById("cv");
+  var ctx = cv.getContext("2d");
+  var p1 = { x: 0.42, y: 0 }, p2 = { x: 0.58, y: 1 };
+  var pad = 28, dragging = null;
+  function xy(p) {
+    return {
+      x: pad + p.x * (cv.width - pad * 2),
+      y: pad + (1 - p.y) * (cv.height - pad * 2)
+    };
+  }
+  function draw() {
+    var w = cv.width, h = cv.height;
+    ctx.fillStyle = "#101010";
+    ctx.fillRect(0, 0, w, h);
+    var a = xy({ x: 0, y: 0 }), b = xy({ x: 1, y: 1 });
+    var c1 = xy(p1), c2 = xy(p2);
+    ctx.strokeStyle = "#2a2a2a";
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(c1.x, c1.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(c2.x, c2.y); ctx.stroke();
+    ctx.strokeStyle = "#f5a044";
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, b.x, b.y); ctx.stroke();
+    ctx.lineWidth = 1;
+    [a, b].forEach(function (p) {
+      ctx.fillStyle = "#f5a044";
+      ctx.fillRect(p.x - 4, p.y - 4, 8, 8);
+    });
+    [c1, c2].forEach(function (p) {
+      ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+      ctx.fillStyle = "#f2dcb4"; ctx.fill();
+    });
+  }
+  function hit(mx, my) {
+    var pts = [p1, p2], i, p, d, best = null, bestD = 400;
+    for (i = 0; i < 2; i++) {
+      p = xy(pts[i]);
+      d = (p.x - mx) * (p.x - mx) + (p.y - my) * (p.y - my);
+      if (d < bestD) { best = pts[i]; bestD = d; }
+    }
+    return best;
+  }
+  cv.addEventListener("pointerdown", function (e) {
+    var r = cv.getBoundingClientRect();
+    dragging = hit((e.clientX - r.left) * (cv.width / r.width), (e.clientY - r.top) * (cv.height / r.height));
+    if (dragging) { cv.setPointerCapture(e.pointerId); cv.classList.add("grabbing"); }
+  });
+  cv.addEventListener("pointermove", function (e) {
+    if (!dragging) return;
+    var r = cv.getBoundingClientRect();
+    var nx = ((e.clientX - r.left) * (cv.width / r.width) - 28) / (cv.width - 56);
+    var ny = 1 - ((e.clientY - r.top) * (cv.height / r.height) - 28) / (cv.height - 56);
+    dragging.x = Math.max(0, Math.min(1, nx));
+    dragging.y = Math.max(-0.2, Math.min(1.2, ny));
+    draw();
+  });
+  ["pointerup", "pointercancel"].forEach(function (n) {
+    cv.addEventListener(n, function () { dragging = null; cv.classList.remove("grabbing"); });
+  });
+  draw();
+
+  var board = document.getElementById("board");
+  var map = { KeyA: "a", KeyS: "s", KeyD: "d", KeyW: "w", Space: " " };
+  function btn(k) {
+    return board.querySelector('[data-k="' + k + '"]');
+  }
+  board.addEventListener("pointerdown", function (e) {
+    var t = e.target.closest("button");
+    if (!t) return;
+    t.classList.add("lit");
+    t.setPointerCapture(e.pointerId);
+  });
+  board.addEventListener("pointerup", function (e) {
+    var t = e.target.closest("button");
+    if (t) t.classList.remove("lit");
+  });
+  window.addEventListener("keydown", function (e) {
+    var k = map[e.code];
+    if (!k || e.repeat) return;
+    var b = btn(k);
+    if (b) b.classList.add("lit");
+    if (e.code === "Space") e.preventDefault();
+  });
+  window.addEventListener("keyup", function (e) {
+    var k = map[e.code];
+    var b = k && btn(k);
+    if (b) b.classList.remove("lit");
+  });
+})();
+</script>
 </body>
 </html>
