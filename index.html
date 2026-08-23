@@ -4,281 +4,426 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>sinj0x7</title>
-<meta name="description" content="sinj0x7 — CurveLoupe, Keycam, and the rest.">
+<meta name="description" content="sinj0x7 — tools, shown as themselves.">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { min-height: 100%; }
   body {
-    background: #efece4;
-    color: #161616;
-    font: 16px/1.6 Helvetica, Arial, sans-serif;
+    background: #121212;
+    color: #d8d4cc;
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
   }
-  a { color: #161616; }
-  a:hover { color: #c31212; }
-  .shell {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    min-height: 100vh;
+  a { color: #f2f2f2; }
+  header, .block { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+  header { padding-top: 48px; padding-bottom: 56px; }
+  h1 {
+    font-size: 32px;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    color: #f2f2f2;
   }
-  .rail {
-    background: #111;
-    color: #efece4;
-    padding: 28px 24px;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .rail h1 {
-    font: italic 700 34px/0.95 "Times New Roman", Times, serif;
-    letter-spacing: -0.03em;
-  }
-  .rail .tag {
-    margin-top: 14px;
-    font-size: 12px;
-    letter-spacing: 0.12em;
+  .by { color: #8c877c; font-size: 14px; margin-top: 4px; }
+  .by a { color: #f2f2f2; }
+  .lede { margin-top: 22px; max-width: 640px; }
+  .block { padding-bottom: 72px; }
+  .who {
+    font-size: 13px;
+    color: #8c877c;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8a8680;
-  }
-  .rail nav { font-size: 13px; }
-  .rail nav a {
-    color: #efece4;
-    text-decoration: none;
-    display: block;
-    margin-bottom: 6px;
-  }
-  .rail nav a:hover { color: #ff4d3a; }
-  .work {
-    padding: 48px 56px 88px;
-    max-width: 860px;
-  }
-  .lede {
-    font: italic 22px/1.45 "Times New Roman", Times, serif;
-    max-width: 34em;
-    margin-bottom: 48px;
-  }
-  .piece {
-    padding: 36px 0;
-    border-top: 1px solid #161616;
-  }
-  .piece header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 10px;
-  }
-  .n {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    color: #8a8680;
+    margin-bottom: 8px;
   }
   h2 {
-    font: italic 700 36px/1 "Times New Roman", Times, serif;
-    letter-spacing: -0.03em;
+    font-size: 26px;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    color: #f2f2f2;
+    margin-bottom: 8px;
   }
-  .piece p { margin-bottom: 14px; max-width: 38em; }
-  .links { font-size: 13px; }
+  .block > p { max-width: 640px; margin-bottom: 16px; }
+  .links { font-size: 14px; margin-top: 14px; }
   .links a { margin-right: 14px; }
-  canvas {
+
+  /* Keycam */
+  .stage {
+    background: #101010;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 18px 16px 16px;
+  }
+  .readout {
+    min-height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .readout b {
+    font-size: 36px;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    color: #f4f4f4;
+    line-height: 1;
+  }
+  .readout span { color: #6e6e6e; font-size: 13px; margin-top: 8px; }
+  .kboard { display: flex; flex-direction: column; gap: 6px; }
+  .krow { display: flex; gap: 6px; }
+  .key {
+    flex: 1;
+    height: 42px;
+    background: #2c2c2c;
+    color: #d8d8d8;
+    border: 0;
+    border-radius: 5px;
+    font: 600 11px/1 "Segoe UI", system-ui, sans-serif;
+    cursor: pointer;
+    user-select: none;
+  }
+  .key.u15 { flex: 1.5; } .key.u175 { flex: 1.75; } .key.u2 { flex: 2; }
+  .key.u225 { flex: 2.25; } .key.u275 { flex: 2.75; } .key.u125 { flex: 1.25; }
+  .key.u625 { flex: 6.25; }
+  .key.lit { background: #f4f4f4; color: #141414; }
+
+  /* CurveLoupe */
+  canvas.curve {
     display: block;
     width: 100%;
     height: 280px;
-    background: #e4e0d6;
+    background: #101010;
     cursor: grab;
     touch-action: none;
-    margin: 8px 0 8px;
   }
-  canvas.grabbing { cursor: grabbing; }
-  .hint {
+  canvas.curve.grabbing { cursor: grabbing; }
+  .hint { color: #6e6e6e; font-size: 13px; margin-top: 8px; }
+
+  /* laser-eyes */
+  canvas.eyes {
+    display: block;
+    width: 100%;
+    height: 240px;
+    background: #0c0c0c;
+    touch-action: none;
+  }
+
+  /* damusic */
+  .eq {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 140px;
+    padding: 12px 4px 0;
+  }
+  .eq i {
+    flex: 1;
+    display: block;
+    align-self: flex-end;
+    background: #f2f2f2;
+    height: 40%;
+    min-height: 8px;
+    border-radius: 1px 1px 0 0;
+  }
+
+  /* Animio */
+  .ani {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+  }
+  .ani h3 {
     font-size: 12px;
-    color: #8a8680;
-    margin-bottom: 14px;
+    font-weight: 600;
+    color: #8c877c;
+    margin-bottom: 10px;
   }
+  .ani ol { list-style: none; }
+  .ani li {
+    padding: 10px 0;
+    border-top: 1px solid #2a2a2a;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .ani b { font-weight: 600; color: #f2f2f2; }
+  .ani em { font-style: normal; color: #8c877c; font-size: 12px; }
+
+  /* moodboard */
   .board {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 56px 56px 42px;
-    gap: 8px;
-    background: #e4e0d6;
-    padding: 14px;
-    margin: 8px 0 8px;
+    position: relative;
+    height: 280px;
+    background:
+      linear-gradient(#1c1c1c 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(90deg, #1c1c1c 1px, transparent 1px) 0 0 / 24px 24px,
+      #161616;
   }
-  .board button {
-    border: 1.5px solid #161616;
-    background: transparent;
-    color: #161616;
-    font: 700 14px Helvetica, Arial, sans-serif;
-    cursor: pointer;
+  .note {
+    position: absolute;
+    width: 180px;
+    min-height: 110px;
+    padding: 12px 14px;
+    background: #ece8dc;
+    color: #1a1a1a;
+    font: 15px/1.4 Georgia, "Times New Roman", serif;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,.45);
   }
-  .board button[data-k="w"] { grid-column: 2; grid-row: 1; }
-  .board button[data-k="a"] { grid-column: 1; grid-row: 2; }
-  .board button[data-k="s"] { grid-column: 2; grid-row: 2; }
-  .board button[data-k="d"] { grid-column: 3; grid-row: 2; }
-  .board button.wide { grid-column: 1 / -1; grid-row: 3; }
-  .board button.lit {
-    background: #161616;
-    color: #efece4;
+  .note:nth-child(2) { background: #dfe6f0; }
+  .note:nth-child(3) { background: #ecd9d4; }
+  .note.grabbing { cursor: grabbing; z-index: 2; }
+
+  /* 1337 */
+  pre {
+    font: 13px/1.7 ui-monospace, Consolas, monospace;
+    background: #0c0c0c;
+    color: #c8c2b6;
+    padding: 18px 20px;
+    overflow-x: auto;
   }
-  .index { padding-top: 36px; border-top: 1px solid #161616; }
-  .index h3 {
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #8a8680;
-    margin-bottom: 8px;
+  pre .kw { color: #f2f2f2; }
+  pre .fn { color: #e8e8e8; }
+  pre .cm { color: #6e6e6e; }
+
+  footer {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 8px 20px 64px;
+    color: #8c877c;
+    font-size: 13px;
   }
-  .index .row {
-    display: grid;
-    grid-template-columns: 140px 1fr auto;
-    gap: 16px;
-    align-items: baseline;
-    padding: 12px 0;
-    border-bottom: 1px solid #d4d0c6;
-  }
-  .index b { font: italic 700 18px "Times New Roman", Times, serif; }
-  .index span { color: #5c5852; font-size: 14px; }
-  .index em {
-    font-style: normal;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #8a8680;
-  }
-  .index em a { text-decoration: none; }
-  @media (max-width: 800px) {
-    .shell { grid-template-columns: 1fr; }
-    .rail {
-      position: relative;
-      height: auto;
-      flex-direction: row;
-      align-items: end;
-      padding: 20px;
-    }
-    .rail .tag { margin-top: 8px; }
-    .rail nav { text-align: right; }
-    .work { padding: 32px 20px 64px; }
-    h2 { font-size: 28px; }
-    .lede { font-size: 19px; }
-    .index .row {
-      grid-template-columns: 1fr auto;
-      grid-template-rows: auto auto;
-    }
-    .index .row b { grid-column: 1; }
-    .index .row em { grid-column: 2; grid-row: 1; }
-    .index .row span { grid-column: 1 / -1; }
+  footer a { color: #8c877c; }
+  footer a:hover { color: #f2f2f2; }
+
+  @media (max-width: 720px) {
+    .key { height: 30px; font-size: 9px; }
+    .readout b { font-size: 28px; }
+    .ani { grid-template-columns: 1fr; gap: 8px; }
+    .note { width: 150px; }
+    .note:nth-child(1) { left: 12px !important; top: 24px !important; }
+    .note:nth-child(2) { left: 48px !important; top: 92px !important; }
+    .note:nth-child(3) { left: 20px !important; top: 160px !important; }
   }
 </style>
 </head>
 <body>
-<div class="shell">
-  <aside class="rail">
-    <div>
-      <h1>sinj0x7</h1>
-      <p class="tag">tools</p>
+<header>
+  <h1>sinj0x7</h1>
+  <div class="by">
+    <a href="https://github.com/sinj0x7">github</a>
+    · <a href="https://instagram.com/offgridkhaled">instagram</a>
+  </div>
+  <p class="lede">
+    I make tools when something’s in the way. A friend stuck on Resolve
+    graphs. No hand cam on stream. Then I put it up in case someone else
+    hits the same wall.
+  </p>
+</header>
+
+<section class="block">
+  <p class="who">overlay</p>
+  <h2>Keycam</h2>
+  <p>
+    Keyboard overlay for streams. Drop it on the game, lock it, keys light
+    up. Themes, resize, spectrum if you want every key a different color.
+  </p>
+  <div class="stage">
+    <div class="readout">
+      <b id="hit">try it</b>
+      <span>type, or click a key</span>
     </div>
-    <nav>
-      <a href="https://github.com/sinj0x7">github</a>
-      <a href="https://instagram.com/offgridkhaled">instagram</a>
-    </nav>
-  </aside>
+    <div class="kboard" id="kboard"></div>
+  </div>
+  <p class="links">
+    <a href="https://sinj0x7.github.io/keycam">site</a>
+    <a href="https://github.com/sinj0x7/keycam">repo</a>
+  </p>
+</section>
 
-  <main class="work">
-    <p class="lede">
-      I make tools when something’s in the way. A friend stuck on Resolve
-      graphs. No hand cam on stream. Then I put it up in case someone else
-      hits the same wall.
-    </p>
+<section class="block">
+  <p class="who">resolve</p>
+  <h2>CurveLoupe</h2>
+  <p>
+    Fusion’s spline editor is too small. Same bezier, bigger window, writes
+    straight back into DaVinci Resolve.
+  </p>
+  <canvas class="curve" id="cv"></canvas>
+  <p class="hint">drag the handles</p>
+  <p class="links">
+    <a href="https://sinj0x7.github.io/curveloupe">site</a>
+    <a href="https://github.com/sinj0x7/curveloupe">repo</a>
+  </p>
+</section>
 
-    <article class="piece">
-      <header>
-        <h2>CurveLoupe</h2>
-        <span class="n">01</span>
-      </header>
-      <p>
-        Fusion’s spline editor is too small. This is the same bezier, bigger
-        window, writes straight back into DaVinci Resolve.
-      </p>
-      <canvas id="cv" width="760" height="280"></canvas>
-      <p class="hint">drag the handles</p>
-      <p class="links">
-        <a href="https://sinj0x7.github.io/curveloupe">site</a>
-        <a href="https://github.com/sinj0x7/curveloupe">repo</a>
-      </p>
-    </article>
+<section class="block">
+  <p class="who">webcam</p>
+  <h2>laser-eyes</h2>
+  <p>Lasers from your webcam, over Discord. Move around in this window.</p>
+  <canvas class="eyes" id="eyes"></canvas>
+  <p class="links">
+    <a href="https://github.com/sinj0x7/laser-eyes">repo</a>
+  </p>
+</section>
 
-    <article class="piece">
-      <header>
-        <h2>Keycam</h2>
-        <span class="n">02</span>
-      </header>
-      <p>
-        Keyboard overlay for streams. Drop it on the game, lock it, keys light
-        up. Themes, resize, spectrum if you want every key a different color.
-      </p>
-      <div class="board" id="board">
-        <button data-k="w">W</button>
-        <button data-k="a">A</button>
-        <button data-k="s">S</button>
-        <button data-k="d">D</button>
-        <button data-k=" " class="wide">space</button>
-      </div>
-      <p class="hint">click the keys, or press them</p>
-      <p class="links">
-        <a href="https://sinj0x7.github.io/keycam">site</a>
-        <a href="https://github.com/sinj0x7/keycam">repo</a>
-      </p>
-    </article>
+<section class="block">
+  <p class="who">spotify</p>
+  <h2>damusic</h2>
+  <p>Your listening, pulled into stats.</p>
+  <div class="eq" id="eq"></div>
+  <p class="links">
+    <a href="https://github.com/sinj0x7/damusic">repo</a>
+  </p>
+</section>
 
-    <section class="index">
-      <h3>the rest</h3>
-      <div class="row">
-        <b>laser-eyes</b>
-        <span>lasers from your webcam, over Discord</span>
-        <em><a href="https://github.com/sinj0x7/laser-eyes">repo</a></em>
-      </div>
-      <div class="row">
-        <b>damusic</b>
-        <span>your Spotify listening, pulled into stats</span>
-        <em><a href="https://github.com/sinj0x7/damusic">repo</a></em>
-      </div>
-      <div class="row">
-        <b>Animio</b>
-        <span>a small anime browser</span>
-        <em>
-          <a href="https://sinj0x7.github.io/Animio">site</a>
-          · <a href="https://github.com/sinj0x7/Animio">repo</a>
-        </em>
-      </div>
-      <div class="row">
-        <b>moodboard</b>
-        <span>notes on a board</span>
-        <em>
-          <a href="https://goofy-notes.vercel.app">site</a>
-          · <a href="https://github.com/sinj0x7/moodboard">repo</a>
-        </em>
-      </div>
-      <div class="row">
-        <b>1337</b>
-        <span>C from the 42 piscine</span>
-        <em><a href="https://github.com/sinj0x7/1337">repo</a></em>
-      </div>
-    </section>
-  </main>
-</div>
+<section class="block">
+  <p class="who">browser</p>
+  <h2>Animio</h2>
+  <p>A small anime browser. Top airing, trending, top rated.</p>
+  <div class="ani">
+    <div>
+      <h3>Top Airing</h3>
+      <ol>
+        <li><b>One Piece</b><em>TV</em></li>
+        <li><b>Frieren</b><em>TV</em></li>
+        <li><b>Dandadan</b><em>TV</em></li>
+      </ol>
+    </div>
+    <div>
+      <h3>Trending Now</h3>
+      <ol>
+        <li><b>Solo Leveling</b><em>TV</em></li>
+        <li><b>Kaiju No. 8</b><em>TV</em></li>
+        <li><b>Blue Lock</b><em>TV</em></li>
+      </ol>
+    </div>
+    <div>
+      <h3>Top Rated</h3>
+      <ol>
+        <li><b>Fullmetal Alchemist</b><em>TV</em></li>
+        <li><b>Steins;Gate</b><em>TV</em></li>
+        <li><b>Hunter x Hunter</b><em>TV</em></li>
+      </ol>
+    </div>
+  </div>
+  <p class="links">
+    <a href="https://sinj0x7.github.io/Animio">site</a>
+    <a href="https://github.com/sinj0x7/Animio">repo</a>
+  </p>
+</section>
+
+<section class="block">
+  <p class="who">notes</p>
+  <h2>moodboard</h2>
+  <p>Notes on a board. Drag them.</p>
+  <div class="board" id="notes">
+    <div class="note" style="left:24px;top:36px">ref — the shot with the bad white balance, keep it</div>
+    <div class="note" style="left:220px;top:88px">later: fix the overlay so lock actually click-throughs</div>
+    <div class="note" style="left:430px;top:40px">friend still hates Fusion’s tiny graphs</div>
+  </div>
+  <p class="links">
+    <a href="https://goofy-notes.vercel.app">site</a>
+    <a href="https://github.com/sinj0x7/moodboard">repo</a>
+  </p>
+</section>
+
+<section class="block">
+  <p class="who">42</p>
+  <h2>1337</h2>
+  <p>C from the piscine.</p>
+  <pre><span class="cm">/* 1337 / 42 piscine */</span>
+<span class="kw">int</span>	<span class="fn">ft_strlen</span>(<span class="kw">char</span> *s)
+{
+	<span class="kw">int</span>	i;
+
+	i = 0;
+	<span class="kw">while</span> (s[i])
+		i++;
+	<span class="kw">return</span> (i);
+}</pre>
+  <p class="links">
+    <a href="https://github.com/sinj0x7/1337">repo</a>
+  </p>
+</section>
+
+<footer>
+  <a href="https://github.com/sinj0x7">github</a>
+  · <a href="https://instagram.com/offgridkhaled">instagram</a>
+</footer>
+
 <script>
 (function () {
+  var rows = [
+    [["`", "`"], ["1","1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"],["7","7"],["8","8"],["9","9"],["0","0"],["-","-"],["=","="], ["backspace","BK","u2"]],
+    [["tab","TAB","u15"],["q","Q"],["w","W"],["e","E"],["r","R"],["t","T"],["y","Y"],["u","U"],["i","I"],["o","O"],["p","P"],["[","["],["]","]"],["\\","\\","u15"]],
+    [["caps","CAPS","u175"],["a","A"],["s","S"],["d","D"],["f","F"],["g","G"],["h","H"],["j","J"],["k","K"],["l","L"],[";",";"],["'","'"],["enter","ENT","u225"]],
+    [["lshift","SHIFT","u225"],["z","Z"],["x","X"],["c","C"],["v","V"],["b","B"],["n","N"],["m","M"],[",",","],[".","."],["/","/"],["rshift","SHIFT","u275"]],
+    [["lctrl","CTRL","u125"],["win","WIN","u125"],["lalt","ALT","u125"],["space","","u625"],["ralt","ALT","u125"],["rwin","WIN","u125"],["menu","MN","u125"],["rctrl","CTRL","u125"]]
+  ];
+  var names = {backspace:"BACKSPACE",tab:"TAB",caps:"CAPS LOCK",enter:"ENTER",lshift:"SHIFT",rshift:"SHIFT",lctrl:"CTRL",rctrl:"CTRL",lalt:"ALT",ralt:"ALT",win:"WIN",rwin:"WIN",menu:"MENU",space:"SPACE"};
+  var codes = {
+    Backquote:"`",Digit0:"0",Digit1:"1",Digit2:"2",Digit3:"3",Digit4:"4",Digit5:"5",Digit6:"6",Digit7:"7",Digit8:"8",Digit9:"9",
+    Minus:"-",Equal:"=",Backspace:"backspace",Tab:"tab",BracketLeft:"[",BracketRight:"]",Backslash:"\\",CapsLock:"caps",
+    Semicolon:";",Quote:"'",Enter:"enter",ShiftLeft:"lshift",ShiftRight:"rshift",Comma:",",Period:".",Slash:"/",
+    ControlLeft:"lctrl",ControlRight:"rctrl",AltLeft:"lalt",AltRight:"ralt",MetaLeft:"win",MetaRight:"rwin",
+    ContextMenu:"menu",Space:"space"
+  };
+  var board = document.getElementById("kboard");
+  var hit = document.getElementById("hit");
+  var byId = {};
+  rows.forEach(function (row) {
+    var r = document.createElement("div");
+    r.className = "krow";
+    row.forEach(function (k) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "key" + (k[2] ? " " + k[2] : "");
+      b.textContent = k[1];
+      b.dataset.id = k[0];
+      r.appendChild(b);
+      byId[k[0]] = b;
+    });
+    board.appendChild(r);
+  });
+  function down(id) {
+    var el = byId[id];
+    if (!el) return;
+    el.classList.add("lit");
+    hit.textContent = names[id] || el.textContent || "SPACE";
+  }
+  function up(id) {
+    var el = byId[id];
+    if (el) el.classList.remove("lit");
+  }
+  board.addEventListener("pointerdown", function (e) {
+    var t = e.target.closest(".key");
+    if (!t) return;
+    t.setPointerCapture(e.pointerId);
+    down(t.dataset.id);
+  });
+  board.addEventListener("pointerup", function (e) {
+    var t = e.target.closest(".key");
+    if (t) up(t.dataset.id);
+  });
+  window.addEventListener("keydown", function (e) {
+    var id = codes[e.code];
+    if (!id && e.code.indexOf("Key") === 0) id = e.code.slice(3).toLowerCase();
+    if (!id || e.repeat) return;
+    down(id);
+    if (e.code === "Space" || e.code === "Tab") e.preventDefault();
+  });
+  window.addEventListener("keyup", function (e) {
+    var id = codes[e.code];
+    if (!id && e.code.indexOf("Key") === 0) id = e.code.slice(3).toLowerCase();
+    if (id) up(id);
+  });
+
   var cv = document.getElementById("cv");
   var ctx = cv.getContext("2d");
   var p1 = { x: 0.42, y: 0 }, p2 = { x: 0.58, y: 1 };
   var pad = 28, dragging = null;
-
-  function fit() {
+  function fitCurve() {
     cv.width = Math.max(320, cv.clientWidth);
     cv.height = 280;
-    draw();
+    drawCurve();
   }
   function xy(p) {
     return {
@@ -286,29 +431,29 @@
       y: pad + (1 - p.y) * (cv.height - pad * 2)
     };
   }
-  function draw() {
+  function drawCurve() {
     var w = cv.width, h = cv.height;
-    ctx.fillStyle = "#e4e0d6";
+    ctx.fillStyle = "#101010";
     ctx.fillRect(0, 0, w, h);
     var a = xy({ x: 0, y: 0 }), b = xy({ x: 1, y: 1 });
     var c1 = xy(p1), c2 = xy(p2);
-    ctx.strokeStyle = "#c4bfb3";
+    ctx.strokeStyle = "#2a2a2a";
     ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(c1.x, c1.y); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(c2.x, c2.y); ctx.stroke();
-    ctx.strokeStyle = "#161616";
+    ctx.strokeStyle = "#f5a044";
     ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, b.x, b.y); ctx.stroke();
     ctx.lineWidth = 1;
     [a, b].forEach(function (p) {
-      ctx.fillStyle = "#161616";
+      ctx.fillStyle = "#f5a044";
       ctx.fillRect(p.x - 4, p.y - 4, 8, 8);
     });
     [c1, c2].forEach(function (p) {
       ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
-      ctx.fillStyle = "#161616"; ctx.fill();
+      ctx.fillStyle = "#f2dcb4"; ctx.fill();
     });
   }
-  function hit(mx, my) {
+  function hitH(mx, my) {
     var pts = [p1, p2], i, p, d, best = null, bestD = 400;
     for (i = 0; i < 2; i++) {
       p = xy(pts[i]);
@@ -319,7 +464,7 @@
   }
   cv.addEventListener("pointerdown", function (e) {
     var r = cv.getBoundingClientRect();
-    dragging = hit((e.clientX - r.left) * (cv.width / r.width), (e.clientY - r.top) * (cv.height / r.height));
+    dragging = hitH((e.clientX - r.left) * (cv.width / r.width), (e.clientY - r.top) * (cv.height / r.height));
     if (dragging) { cv.setPointerCapture(e.pointerId); cv.classList.add("grabbing"); }
   });
   cv.addEventListener("pointermove", function (e) {
@@ -329,41 +474,111 @@
     var ny = 1 - ((e.clientY - r.top) * (cv.height / r.height) - 28) / (cv.height - 56);
     dragging.x = Math.max(0, Math.min(1, nx));
     dragging.y = Math.max(-0.2, Math.min(1.2, ny));
-    draw();
+    drawCurve();
   });
   ["pointerup", "pointercancel"].forEach(function (n) {
     cv.addEventListener(n, function () { dragging = null; cv.classList.remove("grabbing"); });
   });
-  window.addEventListener("resize", fit);
-  fit();
 
-  var board = document.getElementById("board");
-  var map = { KeyA: "a", KeyS: "s", KeyD: "d", KeyW: "w", Space: " " };
-  function btn(k) {
-    return board.querySelector('[data-k="' + k + '"]');
+  var eyes = document.getElementById("eyes");
+  var ectx = eyes.getContext("2d");
+  var mouse = { x: 0.5, y: 0.45 };
+  function fitEyes() {
+    eyes.width = Math.max(320, eyes.clientWidth);
+    eyes.height = 240;
+    drawEyes();
   }
-  board.addEventListener("pointerdown", function (e) {
-    var t = e.target.closest("button");
-    if (!t) return;
-    t.classList.add("lit");
-    t.setPointerCapture(e.pointerId);
+  function drawEyes() {
+    var w = eyes.width, h = eyes.height;
+    ectx.fillStyle = "#0c0c0c";
+    ectx.fillRect(0, 0, w, h);
+    var cx = w / 2, cy = h / 2 + 8;
+    var gap = Math.min(70, w * 0.12);
+    var mx = mouse.x * w, my = mouse.y * h;
+    [[cx - gap, cy], [cx + gap, cy]].forEach(function (eye) {
+      var ex = eye[0], ey = eye[1];
+      var dx = mx - ex, dy = my - ey;
+      var len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var px = ex + dx / len * 7;
+      var py = ey + dy / len * 5;
+      ectx.beginPath();
+      ectx.ellipse(ex, ey, 22, 16, 0, 0, Math.PI * 2);
+      ectx.fillStyle = "#f2f2f2";
+      ectx.fill();
+      ectx.beginPath();
+      ectx.arc(px, py, 7, 0, Math.PI * 2);
+      ectx.fillStyle = "#121212";
+      ectx.fill();
+      ectx.strokeStyle = "#ff3a3a";
+      ectx.lineWidth = 1.5;
+      ectx.beginPath();
+      ectx.moveTo(px, py);
+      ectx.lineTo(mx, my);
+      ectx.stroke();
+    });
+    ectx.fillStyle = "#ff3a3a";
+    ectx.beginPath();
+    ectx.arc(mx, my, 3, 0, Math.PI * 2);
+    ectx.fill();
+  }
+  eyes.addEventListener("pointermove", function (e) {
+    var r = eyes.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left) / r.width;
+    mouse.y = (e.clientY - r.top) / r.height;
+    drawEyes();
   });
-  board.addEventListener("pointerup", function (e) {
-    var t = e.target.closest("button");
-    if (t) t.classList.remove("lit");
+
+  var eq = document.getElementById("eq");
+  var bars = [];
+  var i;
+  for (i = 0; i < 28; i++) {
+    var el = document.createElement("i");
+    eq.appendChild(el);
+    bars.push(el);
+  }
+  var t0 = 0;
+  function paintEq(t) {
+    bars.forEach(function (bar, n) {
+      var h = 18 + Math.abs(Math.sin(t * 2.2 + n * 0.45)) * 72 + Math.abs(Math.sin(t * 3.1 + n * 0.9)) * 18;
+      bar.style.height = h + "%";
+    });
+  }
+  paintEq(0.8);
+  function tick(now) {
+    if (!t0) t0 = now;
+    paintEq((now - t0) / 1000);
+    requestAnimationFrame(tick);
+  }
+  if (!window.matchMedia || !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    requestAnimationFrame(tick);
+  }
+
+  var padEl = document.getElementById("notes");
+  padEl.querySelectorAll(".note").forEach(function (note) {
+    var ox = 0, oy = 0;
+    note.addEventListener("pointerdown", function (e) {
+      var r = padEl.getBoundingClientRect();
+      ox = e.clientX - r.left - note.offsetLeft;
+      oy = e.clientY - r.top - note.offsetTop;
+      note.setPointerCapture(e.pointerId);
+      note.classList.add("grabbing");
+    });
+    note.addEventListener("pointermove", function (e) {
+      if (!note.classList.contains("grabbing")) return;
+      var r = padEl.getBoundingClientRect();
+      var x = e.clientX - r.left - ox;
+      var y = e.clientY - r.top - oy;
+      x = Math.max(0, Math.min(r.width - note.offsetWidth, x));
+      y = Math.max(0, Math.min(r.height - note.offsetHeight, y));
+      note.style.left = x + "px";
+      note.style.top = y + "px";
+    });
+    note.addEventListener("pointerup", function () { note.classList.remove("grabbing"); });
   });
-  window.addEventListener("keydown", function (e) {
-    var k = map[e.code];
-    if (!k || e.repeat) return;
-    var b = btn(k);
-    if (b) b.classList.add("lit");
-    if (e.code === "Space") e.preventDefault();
-  });
-  window.addEventListener("keyup", function (e) {
-    var k = map[e.code];
-    var b = k && btn(k);
-    if (b) b.classList.remove("lit");
-  });
+
+  window.addEventListener("resize", function () { fitCurve(); fitEyes(); });
+  fitCurve();
+  fitEyes();
 })();
 </script>
 </body>
